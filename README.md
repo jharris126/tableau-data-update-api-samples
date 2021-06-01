@@ -2,14 +2,16 @@
 
 ## Summary
 
-This is a very simple python example use case for the upcoming Tableau Data Update API.
-Upon GA, this project will be updated with any syntax changes and more example use cases.
+The Tableau Data Update REST API allows Hyper API users to push delta changes extract refresh changes to Hyper data living on
+Tableau Server without the need to bring the entire .hyper file down to your local environment and publish it back up. This repo
+holds a few simple examples to help python Hyper API users understand what the API data and how to interact with it in as brief of 
+code as possible that can be used as a template for building their own use cases.
 
 
 ## Setup
 
 ### Tableau Online Developer Site
-This is an API pre-release only available to members of the 
+This is API is currently in pre-release and only available to members of the 
 [Tableau DataDev Program](https://www.tableau.com/developer). Follow the link to join today!
 
 ### Python Package Requirements:
