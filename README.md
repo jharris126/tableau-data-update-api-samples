@@ -10,7 +10,7 @@ code as possible that can be used as a template for building their own use cases
 ## Setup
 
 ### Tableau Developer Official Docs
-This endpoint is availabile on Tableau Server 2021.2 and up. Offical documentation for the end point is available [here](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_concepts_update_data.htm).
+This endpoint is availabile on Tableau Server 2021.2 and up. Offical documentation for the end point is available [here](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_how_to_update_data_to_hyper.htm).
 
 ### Python Package Requirements:
   - Tableau Server Client
