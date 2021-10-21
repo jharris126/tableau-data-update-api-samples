@@ -9,10 +9,15 @@ def create_init_hyper(init_file):
         with Connection(endpoint=hyper.endpoint,
                         database=init_file,
                         create_mode=CreateMode.CREATE_AND_REPLACE) as connection:
-            sql = f"CREATE TABLE {SchemaName('public')}.{TableName('test')} AS "
-            sql += f"SELECT 'foo' AS {escape_name('colA')}, 1 AS {escape_name('colB')}"
 
+            sql = (
+                f"CREATE TABLE {SchemaName('public')}.{TableName('test')} "
+                f"({escape_name('colA')}, {escape_name('colB')}) AS "
+                "VALUES ('foo', 1)"
+            )
             connection.execute_command(sql)
+
+    print(f'Initial hyper file created as: "{init_file}".')
 
 
 # publish this hyper file to Tableau Server
@@ -21,10 +26,12 @@ def publish_init_hyper(init_file):
         for proj in TSC.Pager(server.projects):
             if proj.name == new_ds_project:
                 proj_id = proj.id
+                proj_name = proj.name
 
         ds = TSC.DatasourceItem(proj_id, name=new_ds_name)
         resp = server.datasources.publish(ds, init_file, TSC.Server.PublishMode.Overwrite)
-        return resp.id
+
+        print(f'"{init_file}" published to "{proj_name}" project as "{resp.name}".')
 
 
 def main():

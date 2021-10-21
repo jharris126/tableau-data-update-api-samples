@@ -10,14 +10,15 @@ def create_incr_hyper(incr_file):
         with Connection(endpoint=hyper.endpoint,
                         database=incr_file,
                         create_mode=CreateMode.CREATE_AND_REPLACE) as connection:
-            sql = (
-                f"CREATE TABLE {SchemaName('public')}.{TableName('test')} AS "
-                f"SELECT 'foo' AS {escape_name('colA')}, 3 AS {escape_name('colB')} "
-                "UNION ALL "
-                f"SELECT 'bar' AS {escape_name('colA')}, 2 AS {escape_name('colB')}"
-            )
 
+            sql = (
+                f"CREATE TABLE {SchemaName('public')}.{TableName('test')} "
+                f"({escape_name('colA')}, {escape_name('colB')}) AS "
+                "VALUES ('foo', 3), ('bar', 2)"
+            )
             connection.execute_command(sql)
+
+    print(f'Incremental hyper file created as: "{incr_file}".')
 
 
 # use data update api to upsert the new records into the published hyper file on Tableau Server
@@ -50,8 +51,12 @@ def publish_incr_hyper(incr_file):
         req_id = str(uuid.uuid4())
 
         # TSC update_hyper_data takes in the datasource item, upload ID, actions, and hyper file and pushes to server
-        response = server.datasources.update_hyper_data(ds, request_id=req_id, actions=actions, payload=incr_file)
-        print('Update Data Job luid: ' + str(response.id))
+        job = server.datasources.update_hyper_data(ds, request_id=req_id, actions=actions, payload=incr_file)
+        print(f"Update Data Job posted (luid: {job.id})")
+
+        print("Waiting for job to complete...")
+        job = server.jobs.wait_for_job(job)
+        print(f"{job.type} job (luid: {job.id}) completed successfully at {job.completed_at}.")
 
 
 def main():
