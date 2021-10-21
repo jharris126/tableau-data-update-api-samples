@@ -1,2 +1,4 @@
 
 hyperd.log
+*.pyc
+*.hyper
