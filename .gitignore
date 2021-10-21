@@ -2,3 +2,5 @@
 hyperd.log
 *.pyc
 *.hyper
+.vscode/*
+.idea/*
