@@ -4,3 +4,4 @@ hyperd.log
 *.hyper
 .vscode/*
 .idea/*
+__pycache__
